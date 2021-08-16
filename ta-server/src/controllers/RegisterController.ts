@@ -3,8 +3,7 @@ import pool from '../db/connection'
 
 export async function Register(req: Request, res: Response) {
     try {
-
-
+        
         const { cpf, nome, email, password, cargo } = req.body
 
         const query = {
