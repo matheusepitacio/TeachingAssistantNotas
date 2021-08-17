@@ -7,7 +7,7 @@ module.exports = {
     //e dava erro se colocasse como tipo Request
 
     async GetAlunoNotas(req: any, res: Response) {
-        
+
         try {
             const cpf = req.params.cpf;
 
@@ -41,13 +41,18 @@ module.exports = {
             if (req.cargo === "Professor") {
                 const { meta, nota } = req.body;
 
-
-                const query = {
+                var query = {
                     name: "post-grades",
                     text: "INSERT INTO notas VALUES ($1,$2,$3,$4) ON CONFLICT(cpf_aluno,meta) DO UPDATE SET nota = $4, cpf_professor = $2",
                     values: [req.params.cpf, req.cpf, meta, nota]
                 }
-
+                if (nota === "") {
+                    var query = {
+                        name: "delete-grade",
+                        text: "DELETE FROM notas WHERE cpf_aluno = $1 AND meta = $2",
+                        values: [req.params.cpf, meta]
+                    }
+                }
                 const result = await pool.query(query)
 
                 if (result.error) return res.status(500).send("Bad Request")
