@@ -17,6 +17,6 @@ Como conectar o banco de dados no windows:
 
 { "jwtSecretKey" : **[escolha alguma senha e coloque em formato de string]**, "user" : "postgres", "password": **[coloque a senha que você escolheu ao instalar o postgres em formato de string]** ,"database": "teachingassistant" }
 
-O sistema está provavelmente está pronto para uso.
+O sistema provavelmente está pronto para uso.
 
 No linux acredito que os passos de 5-10 são os mesmos
