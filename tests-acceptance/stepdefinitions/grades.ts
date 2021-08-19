@@ -19,16 +19,6 @@ async function loginAsTeacher() {
     await element(by.buttonText("Login")).click()
 }
 
-async function loginAsStudent(cpf, password) {
-
-    await browser.get("http://localhost:4200/login")
-
-    await $("input[name='cpf']").sendKeys(cpf)
-    await $("input[name='password']").sendKeys(password)
-
-    await element(by.buttonText("Login")).click()
-}
-
 async function assertCpfNotInStudentList(cpf) {
 
     const items = await element.all(by.id(`cpf ${cpf}`))
@@ -79,7 +69,7 @@ async function assertGradeInGoal(grade, goal, cpf) {
 }
 
 async function assertGradeNotInGoal(goal, cpf) {
-    
+
     const items = await element.all(by.id(`meta ${goal}`))
 
     if (items.length == 1) {
@@ -106,6 +96,8 @@ defineSupportCode(function ({ Given, When, Then, After }) {
 
     Given(/^I am logged in as "Professor"$/, async () => {
         await loginAsTeacher()
+
+        await browser.sleep(2000) //esperando pois tem um bug que demora para navegar
 
     })
 
@@ -161,7 +153,7 @@ defineSupportCode(function ({ Given, When, Then, After }) {
 
     When(/^I delete the grade in the "([^\"]*)" goal of cpf "([^\"]*)"$/,
         async (goal, cpf) => {
-            
+
             await deleteGrade(goal, cpf)
         }
     )
@@ -193,8 +185,23 @@ defineSupportCode(function ({ Given, When, Then, After }) {
         }
     )
 
+    Then(/^I can see the average "([^\"]*)" for the cpf "([^\"]*)"$/, async(average,cpf) => {
+        const currentAverage = await element(by.id(`media ${cpf}`)).getText()
+
+        expect(currentAverage).to.equal(average)
+    })
+
+    Then(/^I can see an error message in average field for the cpf "([^\"]*)"$/, async(cpf) => {
+        const message = await element(by.id(`media ${cpf}`)).getText()
+
+        expect(message).to.equal('Nenhum número nas metas, impossível calcular')
+    })
+
     After(async () => {
-        await element(by.id(`remover 700`)).click()
+
+        if (await element(by.id(`remover 700`)).isPresent()) {
+            await element(by.id(`remover 700`)).click()
+        }
     })
 
 })

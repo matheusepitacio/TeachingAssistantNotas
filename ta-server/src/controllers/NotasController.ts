@@ -23,7 +23,6 @@ module.exports = {
 
             if (result.error) return res.status(500).send("Bad Request")
 
-            console.log(result.rows)
 
             res.send(result.rows)
 
