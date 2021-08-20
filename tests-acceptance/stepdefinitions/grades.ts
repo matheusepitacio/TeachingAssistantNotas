@@ -37,11 +37,11 @@ async function addGoalToGoalsList(goal) {
     const items = await element.all(by.id(`meta ${goal}`))
 
     if (items.length == 0) {
-        await element(by.buttonText("Adicionar Meta")).click()
+        await element(by.id("Adicionar Meta")).click()
 
         await $("input[name='adicionarMeta']").sendKeys(goal)
 
-        await element(by.buttonText("Adicionar Meta")).click()
+        await element(by.id("Adicionar Meta")).click()
     }
 }
 
@@ -82,11 +82,11 @@ async function assertGradeNotInGoal(goal, cpf) {
 
 
 async function addStudentToList(cpf) {
-    await element(by.buttonText("Adicionar Aluno")).click()
+    await element(by.id("Adicionar Aluno")).click()
 
     await $("input[name='adicionarAluno']").sendKeys(cpf)
 
-    await element(by.buttonText("Adicionar Aluno")).click()
+    await element(by.id("Adicionar Aluno")).click()
 
 }
 
@@ -97,7 +97,7 @@ defineSupportCode(function ({ Given, When, Then, After }) {
     Given(/^I am logged in as "Professor"$/, async () => {
         await loginAsTeacher()
 
-        await browser.sleep(2000) //esperando pois tem um bug que demora para navegar
+        await browser.sleep(1000) //esperando pois tem um bug que demora para navegar
 
     })
 
@@ -161,7 +161,7 @@ defineSupportCode(function ({ Given, When, Then, After }) {
     When(/^I refresh the page$/, async () => {
         await browser.refresh()
 
-        await browser.sleep(3000)
+        await browser.sleep(1000)
     }
 
     )
@@ -194,7 +194,7 @@ defineSupportCode(function ({ Given, When, Then, After }) {
     Then(/^I can see an error message in average field for the cpf "([^\"]*)"$/, async(cpf) => {
         const message = await element(by.id(`media ${cpf}`)).getText()
 
-        expect(message).to.equal('Nenhum número nas metas, impossível calcular')
+        expect(message).to.equal('Impossível calcular')
     })
 
     After(async () => {
