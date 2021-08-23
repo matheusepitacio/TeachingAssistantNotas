@@ -56,4 +56,4 @@ Scenario: Not calculating average when all goals has non-numeric grades
     Then I can see the grade "MANA" in the "Escrever Requisitos" goal for the cpf "700"
     Then I can see the grade "MPA" in the "Executar Testes" goal for the cpf "700"
     Then I can see the grade "MA" in the "Desenvolver Projeto" goal for the cpf "700"
-    Then I can see an error message in average field for the cpf "700"
+    Then I can see an error message in the average field for the cpf "700"

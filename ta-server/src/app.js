@@ -1,13 +1,25 @@
 "use strict";
-exports.__esModule = true;
-var express_1 = require("express");
-var routes = require('./routes');
-var app = express_1["default"]();
-app.use(express_1["default"].json());
-app.use(routes);
-app.post('register-aluno', function (req, res) {
-    res.send("Sim, pode");
-});
-app.listen(3000, function () {
-    console.log('listening on port 3000');
+const express = require('express'), app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { verifyJWT } = require('./middleware/authentication');
+const LoginController = require('./controllers/LoginController');
+const RegisterController = require('./controllers/RegisterController');
+const AlunosController = require('./controllers/AlunosController');
+const NotasController = require('./controllers/NotasController');
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(cors());
+app.use(express.json());
+app.post('/register', RegisterController.Register);
+app.post('/login', LoginController.Login);
+app.get('/notas', verifyJWT, AlunosController.Alunos);
+app.get('/notas/:cpf', verifyJWT, NotasController.GetAlunoNotas);
+app.post('/notas/:cpf', verifyJWT, NotasController.editarAlunoNota);
+app.post('/meta', verifyJWT, NotasController.DeleteMeta);
+app.post('/aluno', verifyJWT, NotasController.DeleteAluno);
+const port = 3000;
+app.listen(port, () => {
+    console.log("App is listen on port " + port);
 });

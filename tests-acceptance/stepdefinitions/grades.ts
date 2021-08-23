@@ -191,7 +191,7 @@ defineSupportCode(function ({ Given, When, Then, After }) {
         expect(currentAverage).to.equal(average)
     })
 
-    Then(/^I can see an error message in average field for the cpf "([^\"]*)"$/, async(cpf) => {
+    Then(/^I can see an error message in the average field for the cpf "([^\"]*)"$/, async(cpf) => {
         const message = await element(by.id(`media ${cpf}`)).getText()
 
         expect(message).to.equal('Impossível calcular')
