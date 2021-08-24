@@ -1,4 +1,3 @@
-import exp = require("constants");
 import request = require("request-promise");
 
 var base_url = "http://localhost:3000/";
